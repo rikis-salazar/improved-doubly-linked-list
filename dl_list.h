@@ -1,7 +1,7 @@
 #ifndef __IMPROVED_DL_LIST_H__
 #define __IMPROVED_DL_LIST_H__
 
-#include <cstddef>
+#include <algorithm>  // std::swap, std::size_t
 
 namespace Pic10B{
 
@@ -58,9 +58,9 @@ namespace Pic10B{
 
       // Auxiliary function swap 
       void swap( list<ItemType>& other ){
-        swap(head, other.head);
-        swap(tail, other.tail);
-        swap(num_items, other.num_items);
+        std::swap(head, other.head);
+        std::swap(tail, other.tail);
+        std::swap(num_items, other.num_items);
 	return;
       }
 

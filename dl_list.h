@@ -51,6 +51,11 @@ namespace Pic10B{
 	  return *this;  // <-- rhs goes out of scope here
       }
 
+
+      /** Some other basic functions */
+      ItemType front() const { return head->data; }
+      ItemType back() const { return tail->data; }
+
       // Auxiliary function swap 
       void swap( list<ItemType>& other ){
         swap(head, other.head);

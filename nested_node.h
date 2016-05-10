@@ -1,0 +1,17 @@
+#ifndef __NESTED_DL_NODE_H__
+#define __NESTED_DL_NODE_H__
+
+// This is a nested class of Pic10B::list<T>
+class NestedNode{
+  private:
+    ItemType data;
+    NestedNode* prev;
+    NestedNode* next;
+
+  public:
+    NestedNode(const ItemType& theData, NestedNode* p = nullptr, 
+               NestedNode* n = nullptr ) : 
+      data(theData), prev(p), next(n) {}
+};
+
+#endif

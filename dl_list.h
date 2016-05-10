@@ -48,7 +48,7 @@ namespace Pic10B{
       // Assignment operator
       list<ItemType>& operator=( list<ItemType> rhs ){ // <-- By value???
           this->swap(rhs);
-	  return *this;
+	  return *this;  // <-- rhs goes out of scope here
       }
 
       // Auxiliary function swap 

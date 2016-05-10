@@ -45,6 +45,13 @@ namespace Pic10B{
 	num_items = 0;
       }
 
+      // Assignment operator
+      list<ItemType>& operator=( list<ItemType> rhs ){ // <-- By value???
+          //this->swap(rhs);
+	  return *this;
+      }
+
+
   };
 }
 #endif

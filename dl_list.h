@@ -47,11 +47,31 @@ namespace Pic10B{
 
       // Assignment operator
       list<ItemType>& operator=( list<ItemType> rhs ){ // <-- By value???
-          //this->swap(rhs);
+          this->swap(rhs);
 	  return *this;
       }
 
+      // Auxiliary function swap 
+      void swap( list<ItemType>& other ){
+        swap(head, other.head);
+        swap(tail, other.tail);
+        swap(num_items, other.num_items);
+	return;
+      }
 
-  };
-}
+
+  }; // end of list<ItemType> interface
+
+
+  // Specializations of the templated c++ swap function
+  template <typename ItemType>
+  inline void swap( list<ItemType>& x, list<ItemType>& y ){
+    x.swap(y);
+    return;
+  }
+
+
+}// end of Pic10B namespace
+
+
 #endif

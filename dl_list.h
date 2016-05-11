@@ -2,6 +2,7 @@
 #define __IMPROVED_DL_LIST_H__
 
 #include <algorithm>  // std::swap, std::size_t
+#include <stdexcept>  // std::invalid_argument
 
 namespace Pic10B{
 
@@ -53,8 +54,40 @@ namespace Pic10B{
 
 
       /** Some other basic functions */
-      ItemType front() const { return head->data; }
-      ItemType back() const { return tail->data; }
+      void push_front( const ItemType& theData ){
+        head = new NestedNode(theData, nullptr, head);
+	if ( head->next != nullptr )
+	  head->next->prev = head;
+	if ( tail == nullptr )  // <-- The list was empty
+	  tail = head;
+	num_items++;
+	return;
+      }
+
+      void push_back( const ItemType& theData ){
+	if ( tail != nullptr ){
+	  tail->next =  new NestedNode(theData, tail, nullptr);
+	  tail = tail->next;
+	  num_items++;
+	}
+	else
+	  push_front(theData);  //  numItems is increased as well
+	return;
+      }
+
+
+      ItemType front() const { 
+        if ( head == nullptr )
+	   std::invalid_argument("Attempting to call front() on an empty list.");
+
+        return head->data; 
+      }
+      ItemType back() const { 
+        if ( head == nullptr )
+	   std::invalid_argument("Attempting to call back() on an empty list.");
+
+        return tail->data; 
+      }
 
       // Auxiliary function swap 
       void swap( list<ItemType>& other ){

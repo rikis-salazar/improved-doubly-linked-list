@@ -14,7 +14,10 @@ namespace Pic10B{
 
     public:
       // Nested 'iterator' class (see nested_list_iterator.h)
-      // Make it a friend...
+      #include "nested_iterator.h"
+      // and make it a friend...
+      friend class iterator;
+
       // Nested 'const iterator' class (see nested_const_list_iterator.h)
       // Make it a friend...
 
@@ -53,7 +56,31 @@ namespace Pic10B{
       }
 
 
-      /** Some other basic functions */
+      /** Some other basic functions that DO NOT need iterators */
+      ItemType& front(){ 
+        if ( head == nullptr )
+	   std::invalid_argument("Attempting to call front() on an empty list.");
+        return head->data; 
+      }
+
+      const ItemType& front() const { 
+        if ( head == nullptr )
+	   std::invalid_argument("Attempting to call front() on an empty list.");
+        return head->data; 
+      }
+
+      ItemType& back(){ 
+        if ( tail == nullptr )
+	   std::invalid_argument("Attempting to call back() on an empty list.");
+        return tail->data; 
+      }
+
+      const ItemType& back() const { 
+        if ( tail == nullptr )
+	   std::invalid_argument("Attempting to call back() on an empty list.");
+        return tail->data; 
+      }
+
       void push_front( const ItemType& theData ){
         head = new NestedNode(theData, nullptr, head);
 	if ( head->next != nullptr )
@@ -75,21 +102,37 @@ namespace Pic10B{
 	return;
       }
 
-
-      ItemType front() const { 
+      void pop_front(){
         if ( head == nullptr )
-	   std::invalid_argument("Attempting to call front() on an empty list.");
-
-        return head->data; 
+	   std::invalid_argument("Attempting to call pop_front() on an empty list.");
+	NestedNode* toBeDeleted = head;
+	head = head->next;
+	delete toBeDeleted;
+	num_items--;
+	if ( head != nullptr )
+	  head->prev = nullptr;
+	else
+	  tail = nullptr;
+        return;
       }
-      ItemType back() const { 
-        if ( head == nullptr )
-	   std::invalid_argument("Attempting to call back() on an empty list.");
 
-        return tail->data; 
+      void pop_back(){
+        if ( tail == nullptr )
+	   std::invalid_argument("Attempting to call pop_back() on an empty list.");
+	NestedNode* toBeDeleted = tail;
+	tail = tail->prev;
+	delete toBeDeleted;
+	num_items--;
+	if ( tail != nullptr )
+	  tail->next = nullptr;
+	else
+	  head = nullptr;
+        return;
       }
 
-      // Auxiliary function swap 
+
+      /** Auxiliary functions */
+      // Member function swap called by operator=
       void swap( list<ItemType>& other ){
         std::swap(head, other.head);
         std::swap(tail, other.tail);

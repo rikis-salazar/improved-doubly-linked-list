@@ -37,8 +37,8 @@ namespace Pic10B{
 	num_items = 0; 
       } 
 
-      // Copy constructor
-      list( const list<ItemType>& source );
+      // Copy constructor (see functions that use iterators below)
+      // list( const list<ItemType>& source ); 
 
       // Destructor
       ~list(){
@@ -59,6 +59,14 @@ namespace Pic10B{
 
 
       /** Some other basic functions that DO NOT need iterators */
+      bool empty() const {
+        return ( head == nullptr );
+      }
+
+      std::size_t size() const {
+        return num_items;
+      }
+
       ItemType& front(){ 
         if ( head == nullptr )
 	   std::invalid_argument("Attempting to call front() on an empty list.");
@@ -129,6 +137,86 @@ namespace Pic10B{
 	  tail->next = nullptr;
 	else
 	  head = nullptr;
+        return;
+      }
+
+
+      /** Functions that use iterators or const_iterators */
+      iterator begin(){
+        return iterator(this, head);
+      }
+
+      const_iterator begin() const {
+        return const_iterator(this, head);
+      }
+
+      iterator end(){
+        return iterator(this, nullptr);
+      }
+
+      const_iterator end() const {
+        return const_iterator(this, nullptr);
+      }
+
+      // Copy constructor
+      list( const list<ItemType>& source ){
+        head = tail = nullptr;  // all constructors should properly 
+	num_items = 0;          // initialize all fields
+        for ( const_iterator iter = source.begin() ; iter != source.end() ; ++iter )
+	  push_back(*iter);
+      } 
+
+      iterator insert(iterator position, const ItemType& theData){
+        // Check for special cases
+	if ( position == head ){  // insert new head?
+	  push_front(theData);
+	  return begin();
+	}
+	else if( position.current_node == nullptr ) { // new tail?
+	  push_back(theData);
+	  return iterator(this, tail);
+	}
+	// In both cases abovem num_items is updated via push_XXX
+	else{ // Ok then. Inserting in the middle of the list.
+	  NestedNode* newNode = new NestedNode( theData, 
+	      position.current_node->prev, position.current_mode);
+	  position.current_node->prev->next = newNode;
+	  position.current_node->prev = newNode;
+	  num_items++;
+	  return iterator(this, newNode);
+	}
+      }
+
+      iterator erase(iterator position){
+        if ( empty() )
+	  throw std::invalid_argument("Attempting to erase from an empty list");
+	if ( position == end() )
+	  throw std::invalid_argument("Attempting to erase past the last node");
+	// create return value: iterator that references the next node
+	iterator toBeReturned = position;
+	++toBeReturned;
+	// Special cases? begin(), end()
+	if ( position.current_node == head )
+	  pop_front();
+	else if ( position.current_node == tail )
+	  pop_back();
+	else{
+	  // Create a local NestedNode that we'll use to call delete
+	  // Since this local node will be destroyed at the end of 
+	  // this else block, it will not become a dangling pointer
+	  NestedNode* toBeDeleted = position.current_node;
+	  toBeDeleted->prev->next = toBeDeleted->next;
+	  toBeDeleted->next->prev = toBeDeleted->prev;
+	  delete toBeDeleted;
+	}
+	return toBeReturned;
+      }
+
+      void remove( const ItemType& theData ){
+        for ( iterator iter = begin() ; iter != end() ; ++iter ){
+	  if ( *iter == theData )
+	     erase(iter);
+	}
         return;
       }
 

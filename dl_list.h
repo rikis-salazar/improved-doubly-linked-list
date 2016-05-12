@@ -13,13 +13,15 @@ namespace Pic10B{
       #include "nested_node.h"
 
     public:
-      // Nested 'iterator' class (see nested_list_iterator.h)
+      // Nested 'iterator' class (see nested_iterator.h)
       #include "nested_iterator.h"
       // and make it a friend...
       friend class iterator;
 
-      // Nested 'const iterator' class (see nested_const_list_iterator.h)
+      // Nested 'const iterator' class (see nested_const_iterator.h)
+      #include "nested_const_iterator.h"
       // Make it a friend...
+      friend class const_iterator;
 
     private:
       // Data fields

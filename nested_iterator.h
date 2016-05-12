@@ -18,19 +18,57 @@ class iterator{
         parent(theParent), current_node(thePosition) {} 
 
   public:
-    // Dereference operator, returns by reference.
+    // REQUIRED. Dereference operator (lvalue). See also const_iterator 
     ItemType& operator*() const { 
       if ( current_node == nullptr )
         std::invalid_argument("Attempting to dereference end()");
       return current_node->data;
     }
 
-    // Dereference companion ( operator-> ). Only works if ItemType
-    // is a class [ or a struct ].
+    // REQUIRED. operator++ (prefix version)
+    iterator& operator++(){
+      if ( current_node == nullptr )
+        std::invalid_argument("Attempting to advance past end()");
+      current_node = current_node->next;
+      return *this;
+    }
+
+    // REQUIRED. operator++ (postfix version)
+    iterator operator++(int unused){
+      iterator toBeReturned = *this;  // saves the current position 
+      ++(*this);  // avoids repetition of code [ and also checks for valid range ]
+      return toBeReturned;
+    }
+
+    // REQUIRED. operator-- (prefix version)
+    iterator& operator--(){
+      if ( current_node == parent->head )
+        std::invalid_argument("Attempting to move before begin()");
+      current_node = current_node->prev;
+      return *this;
+    }
+
+    // REQUIRED. operator-- (postfix version)
+    iterator operator--(int unused){
+      iterator toBeReturned = *this;  // See postfix operator++ (above)
+      --(*this);
+      return toBeReturned;
+    }
+
+    // NOT REQUIRED. Dereference companion ( operator-> ). Only works 
+    // if ItemType is a class [or struct].
     ItemType* operator->() const {
       if ( current_node == nullptr )
         std::invalid_argument("Attempting to dereference end()");
       return &(current_node->data);
+    }
+
+    // NOT REQUIRED. Boolean == and !=
+    bool operator==( const iterator& rhs ) const {
+      return current_node == rhs.current_node;
+    }
+    bool operator!=( const iterator& rhs ) const {
+      return !operator==(rhs); 
     }
 
 };

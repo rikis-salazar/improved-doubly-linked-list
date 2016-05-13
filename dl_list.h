@@ -179,7 +179,7 @@ namespace Pic10B{
 	// In both cases abovem num_items is updated via push_XXX
 	else{ // Ok then. Inserting in the middle of the list.
 	  NestedNode* newNode = new NestedNode( theData, 
-	      position.current_node->prev, position.current_mode);
+	      position.current_node->prev, position.current_node);
 	  position.current_node->prev->next = newNode;
 	  position.current_node->prev = newNode;
 	  num_items++;

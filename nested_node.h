@@ -3,6 +3,9 @@
 
 // This is a nested class of Pic10B::list<T>
 class NestedNode{
+  
+  friend class list<ItemType>;
+
   private:
     ItemType data;
     NestedNode* prev;

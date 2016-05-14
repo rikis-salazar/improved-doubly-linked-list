@@ -69,25 +69,25 @@ namespace Pic10B{
 
       ItemType& front(){ 
         if ( head == nullptr )
-	   std::invalid_argument("Attempting to call front() on an empty list.");
+	   throw std::invalid_argument("Attempting to call front() on an empty list.");
         return head->data; 
       }
 
       const ItemType& front() const { 
         if ( head == nullptr )
-	   std::invalid_argument("Attempting to call front() on an empty list.");
+	   throw std::invalid_argument("Attempting to call front() on an empty list.");
         return head->data; 
       }
 
       ItemType& back(){ 
         if ( tail == nullptr )
-	   std::invalid_argument("Attempting to call back() on an empty list.");
+	   throw std::invalid_argument("Attempting to call back() on an empty list.");
         return tail->data; 
       }
 
       const ItemType& back() const { 
         if ( tail == nullptr )
-	   std::invalid_argument("Attempting to call back() on an empty list.");
+	   throw std::invalid_argument("Attempting to call back() on an empty list.");
         return tail->data; 
       }
 
@@ -114,7 +114,7 @@ namespace Pic10B{
 
       void pop_front(){
         if ( head == nullptr )
-	   std::invalid_argument("Attempting to call pop_front() on an empty list.");
+	   throw std::invalid_argument("Attempting to call pop_front() on an empty list.");
 	NestedNode* toBeDeleted = head;
 	head = head->next;
 	delete toBeDeleted;
@@ -128,7 +128,7 @@ namespace Pic10B{
 
       void pop_back(){
         if ( tail == nullptr )
-	   std::invalid_argument("Attempting to call pop_back() on an empty list.");
+	   throw std::invalid_argument("Attempting to call pop_back() on an empty list.");
 	NestedNode* toBeDeleted = tail;
 	tail = tail->prev;
 	delete toBeDeleted;
@@ -168,7 +168,7 @@ namespace Pic10B{
 
       iterator insert(iterator position, const ItemType& theData){
         // Check for special cases
-	if ( position == head ){  // insert new head?
+	if ( position.current_node == head ){  // insert new head?
 	  push_front(theData);
 	  return begin();
 	}

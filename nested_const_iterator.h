@@ -25,14 +25,14 @@ class const_iterator{
     // REQUIRED. Dereference operator (rvalue). See also iterator 
     const ItemType& operator*() const { 
       if ( current_node == nullptr )
-        std::invalid_argument("Attempting to dereference end()");
+        throw std::invalid_argument("Attempting to dereference end()");
       return current_node->data;
     }
 
     // REQUIRED. operator++ (prefix version)
     const_iterator& operator++(){
       if ( current_node == nullptr )
-        std::invalid_argument("Attempting to advance past end()");
+        throw std::invalid_argument("Attempting to advance past end()");
       current_node = current_node->next;
       return *this;
     }
@@ -47,7 +47,7 @@ class const_iterator{
     // REQUIRED. operator-- (prefix version)
     const_iterator& operator--(){
       if ( current_node == parent->head )
-        std::invalid_argument("Attempting to move before begin()");
+        throw std::invalid_argument("Attempting to move before begin()");
       if ( current_node == nullptr )  // one node past the last node?
         current_node = parent->tail;  // come back to the tail
       else
@@ -66,7 +66,7 @@ class const_iterator{
     // if ItemType is a class [or struct].
     const ItemType* operator->() const {
       if ( current_node == nullptr )
-        std::invalid_argument("Attempting to dereference end()");
+        throw std::invalid_argument("Attempting to dereference end()");
       return &(current_node->data);
     }
 

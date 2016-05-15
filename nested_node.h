@@ -12,6 +12,7 @@ class NestedNode{
     NestedNode* next;
 
   public:
+    // We let this class handle the linking of next and prev
     NestedNode(const ItemType& theData, NestedNode* p = nullptr, 
                NestedNode* n = nullptr ) : 
       data(theData), prev(p), next(n) {}

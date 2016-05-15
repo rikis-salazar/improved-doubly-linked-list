@@ -42,11 +42,11 @@ class iterator{
 
     // REQUIRED. operator-- (prefix version)
     iterator& operator--(){
-      if ( current_node == parent->head )
+      if ( current_node == parent->head ) // First element?
         throw std::invalid_argument("Attempting to move before begin()");
       if ( current_node == nullptr )   // Past last element?
-        current_node = parent->tail;   // come back to the tail
-      else
+        current_node = parent->tail;   // come back to tail
+      else  // OK. We are somewhere in the middle
         current_node = current_node->prev;
       return *this;
     }

@@ -12,13 +12,13 @@ int main(){
   // Empty list
   list<std::string> aList;
 
-  // Add three items to the back of the list
+  // Add items to the back of the list
   aList.push_back("Abigail");
   aList.push_back("Beatriz");
   aList.push_back("Citlali");
   aList.push_back("Daneli");
 
-  // Add two items to the front of the list
+  // Add items to the front of the list
   aList.push_front("Xibalba");
   aList.push_front("La Catrina");
 

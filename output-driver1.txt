@@ -1,3 +1,6 @@
+Output produced by driver1.cpp
+------------------------------
+
 La Catrina
 Xibalba
 Candle Maker
